@@ -5,11 +5,12 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
+import command.Responses;
 import command.CommandParser;
 
 public class Bot extends TelegramLongPollingBot {
 
-    private static int RECONNECT_PAUSE = 100000;
+    private static int RECONNECT_PAUSE = 10000;
 
     String userName;
     String token;
@@ -27,8 +28,7 @@ public class Bot extends TelegramLongPollingBot {
             String response = "";
 
             if (messageText.charAt(0) != '/') {
-                response = "Я - не бот для поболтушек.\n" + "Отправляйте мне команды.\n"
-                        + "Список команд доступен по команде /start.";
+                response = Responses.STOP_TALKING.getResponse();
             }
 
             else {
@@ -61,10 +61,10 @@ public class Bot extends TelegramLongPollingBot {
 
         try {
             tBotsApi.registerBot(this);
-            System.out.println("Telegram API started. Listen for the messages");
+            System.out.println(Responses.STARTED.getResponse());
         } catch (TelegramApiRequestException e) {
-            System.out.println(
-                    "Cant Connect. Pause " + RECONNECT_PAUSE / 1000 + "sec and try again. Error: " + e.getMessage());
+            System.out.println("Невозможно соединиться. Ждём " + RECONNECT_PAUSE / 1000
+                    + " секунд и пробуем снова. Ошибка: " + e.getMessage());
             try {
                 Thread.sleep(RECONNECT_PAUSE);
             } catch (InterruptedException e1) {

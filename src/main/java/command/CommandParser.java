@@ -1,14 +1,8 @@
 package command;
 
 public class CommandParser {
-    private String wtf = "Меня такому не учили!";
-    private String welcome = "Привет!\n" +
-    "Я - бот для мониторинга погоды в доме.\n" +
-    "/start - ещё раз познакомиться.\n" +
-    "/measure - измерить текущие температуру и влажность.";
-    private String[] commands = {"start, measure"};
+    private String[] commands = { "start, measure" };
     private String command;
-
 
     public CommandParser(String command) {
         this.command = command;
@@ -16,7 +10,7 @@ public class CommandParser {
 
     private Boolean isCommandExists() {
         for (String element : commands) {
-            if (command == element) {
+            if (command.equals(element)) {
                 return false;
             }
         }
@@ -25,13 +19,15 @@ public class CommandParser {
 
     public String getResponse() {
         if (!this.isCommandExists()) {
-            return wtf;
-        }
-        else {
+            return Responses.WTF.getResponse();
+        } else {
             switch (command) {
-                case "start" : return welcome;
-                case "measure" : return "Я ещё учусь";
-                default: return wtf;
+                case "start":
+                    return Responses.START.getResponse();
+                case "measure":
+                    return Responses.NOT_IMPLEMENTED.getResponse();
+                default:
+                    return Responses.WTF.getResponse();
             }
         }
     }

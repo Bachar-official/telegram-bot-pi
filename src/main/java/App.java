@@ -8,7 +8,7 @@ public class App {
         ApiContextInitializer.init();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Please enter the bot token: ");
+        System.out.println("Введите токен бота: ");
 
         String token = sc.next();
         sc.close();
