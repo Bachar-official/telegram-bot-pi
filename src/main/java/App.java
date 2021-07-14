@@ -11,6 +11,7 @@ public class App {
         System.out.println("Please enter the bot token: ");
 
         String token = sc.next();
+        sc.close();
         Bot weatherBot = new Bot("weatherAtHomeBot", token);
         weatherBot.botConnect();
     }

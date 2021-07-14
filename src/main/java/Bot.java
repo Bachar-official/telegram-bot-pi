@@ -9,6 +9,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
+import command.CommandParser;
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bot extends TelegramLongPollingBot {
@@ -28,10 +30,22 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
+            String response = "";
+            
+            if (message_text.charAt(0) != '/') {
+                response = "Я - не бот для поболтушек.\n" +
+                "Отправляйте мне команды.\n" +
+                "Список команд доступен по команде /start.";
+            }
+
+            else {
+                CommandParser parser = new CommandParser(message_text.substring(1));
+                response = parser.getResponse();
+            }
 
             SendMessage message = new SendMessage() // Create a message object object
                 .setChatId(chat_id)
-                .setText(String.format("Сам ты %s!", message_text));
+                .setText(response);
         try {
             execute(message); // Sending our message object to user
         } catch (TelegramApiException e) {
