@@ -1,7 +1,3 @@
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
@@ -11,46 +7,42 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 import command.CommandParser;
 
-@AllArgsConstructor
-@NoArgsConstructor
 public class Bot extends TelegramLongPollingBot {
 
-    final int RECONNECT_PAUSE = 100000;
+    private static int RECONNECT_PAUSE = 100000;
 
-    @Setter
-    @Getter
     String userName;
-
-    @Setter
-    @Getter
     String token;
+
+    public Bot(String name, String token) {
+        this.userName = name;
+        this.token = token;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message_text = update.getMessage().getText();
-            long chat_id = update.getMessage().getChatId();
+            String messageText = update.getMessage().getText();
+            long chatId = update.getMessage().getChatId();
             String response = "";
-            
-            if (message_text.charAt(0) != '/') {
-                response = "Я - не бот для поболтушек.\n" +
-                "Отправляйте мне команды.\n" +
-                "Список команд доступен по команде /start.";
+
+            if (messageText.charAt(0) != '/') {
+                response = "Я - не бот для поболтушек.\n" + "Отправляйте мне команды.\n"
+                        + "Список команд доступен по команде /start.";
             }
 
             else {
-                CommandParser parser = new CommandParser(message_text.substring(1));
+                CommandParser parser = new CommandParser(messageText.substring(1));
                 response = parser.getResponse();
             }
 
             SendMessage message = new SendMessage() // Create a message object object
-                .setChatId(chat_id)
-                .setText(response);
-        try {
-            execute(message); // Sending our message object to user
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+                    .setChatId(chatId).setText(response);
+            try {
+                execute(message); // Sending our message object to user
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -71,7 +63,8 @@ public class Bot extends TelegramLongPollingBot {
             tBotsApi.registerBot(this);
             System.out.println("Telegram API started. Listen for the messages");
         } catch (TelegramApiRequestException e) {
-            System.out.println("Cant Connect. Pause " + RECONNECT_PAUSE / 1000 + "sec and try again. Error: " + e.getMessage());
+            System.out.println(
+                    "Cant Connect. Pause " + RECONNECT_PAUSE / 1000 + "sec and try again. Error: " + e.getMessage());
             try {
                 Thread.sleep(RECONNECT_PAUSE);
             } catch (InterruptedException e1) {
