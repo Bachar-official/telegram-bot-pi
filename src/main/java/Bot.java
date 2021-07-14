@@ -3,8 +3,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 @AllArgsConstructor
@@ -23,7 +25,19 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(String.format("New inbox message: %s", update.getMessage().getText()));
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            String message_text = update.getMessage().getText();
+            long chat_id = update.getMessage().getChatId();
+
+            SendMessage message = new SendMessage() // Create a message object object
+                .setChatId(chat_id)
+                .setText(String.format("Сам ты %s!", message_text));
+        try {
+            execute(message); // Sending our message object to user
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        }
     }
 
     @Override
