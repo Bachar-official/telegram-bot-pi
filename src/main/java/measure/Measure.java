@@ -17,7 +17,7 @@ public class Measure {
 
     @Override
     public String toString() {
-        if (temperature == 0.0 && humidity == 0.0) {
+        if (temperature == 0 || humidity == 0) {
             return Responses.MEASURE_FAIL.getResponse();
         }
         return String.format("Дата: %s, температура: %f градусов, влажность: %f процентов.", date, temperature,
