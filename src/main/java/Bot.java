@@ -32,7 +32,7 @@ public class Bot extends TelegramLongPollingBot {
             }
 
             else {
-                CommandParser parser = new CommandParser(messageText.substring(1));
+                CommandParser parser = new CommandParser(messageText.substring(1).toLowerCase());
                 response = parser.getResponse();
             }
 
