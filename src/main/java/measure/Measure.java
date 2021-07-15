@@ -20,7 +20,7 @@ public class Measure {
         if (temperature == 0 || humidity == 0) {
             return Responses.MEASURE_FAIL.getResponse();
         }
-        return String.format("Дата: %s, температура: %f градусов, влажность: %f процентов.", date, temperature,
+        return String.format("Дата: %s;\nТемпература: %.1f градусов;\nВлажность: %.1f процентов.", date, temperature,
                 humidity);
     }
 }
