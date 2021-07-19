@@ -5,19 +5,18 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
-import command.Responses;
-import command.CommandParser;
-
 public class Bot extends TelegramLongPollingBot {
 
     private static int RECONNECT_PAUSE = 10000;
 
     String userName;
     String token;
+    DbHandler handler;
 
-    public Bot(String name, String token) {
+    public Bot(String name, String token, DbHandler handler) {
         this.userName = name;
         this.token = token;
+        this.handler = handler;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class Bot extends TelegramLongPollingBot {
             }
 
             else {
-                CommandParser parser = new CommandParser(messageText.substring(1).toLowerCase());
+                CommandParser parser = new CommandParser(messageText.substring(1).toLowerCase(), handler);
                 response = parser.getResponse();
             }
 

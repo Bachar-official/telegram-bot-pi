@@ -1,5 +1,7 @@
 package DHT;
 
+import measure.Measure;
+
 public class DHTData {
     private double temperature;
     private double humidity;
@@ -28,6 +30,10 @@ public class DHTData {
 
     public void setHumidity(double humidity) {
         this.humidity = humidity;
+    }
+
+    public Measure toMeasure() {
+        return new Measure(temperature, humidity);
     }
 
     @Override
