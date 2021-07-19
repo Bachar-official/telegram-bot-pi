@@ -1,11 +1,17 @@
+import measure.Measure;
+import responses.*;
+
 public class CommandParser {
     private String command;
-    private DbHandler handler;
+    private DbHandler handler = null;
 
-    public CommandParser(String command, DbHandler handler)
-    {
+    public CommandParser(String command, DbHandler handler) {
         this.command = command;
         this.handler = handler;
+    }
+
+    public Measure getLastMeasure() {
+        return handler.getLastMeasure();
     }
 
     public String getResponse() {
@@ -13,7 +19,7 @@ public class CommandParser {
             case "start":
                 return Responses.START.getResponse();
             case "measure":
-                return "Under construction";
+                return getLastMeasure().toString();
             default:
                 return Responses.WTF.getResponse();
         }

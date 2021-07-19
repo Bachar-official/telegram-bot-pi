@@ -10,7 +10,8 @@ public class DbHandler {
     private static DbHandler instance = null;
 
     public static synchronized DbHandler getInstance() throws SQLException {
-        if (instance == null) instance = new DbHandler();
+        if (instance == null)
+            instance = new DbHandler();
         return instance;
     }
 
@@ -26,12 +27,8 @@ public class DbHandler {
             List<Measure> result = new ArrayList<>();
             ResultSet set = statement.executeQuery("SELECT id, date, temperature, humidity FROM measure");
             while (set.next()) {
-                result.add(new Measure(
-                        set.getInt("id"),
-                        set.getString("date"),
-                        set.getDouble("temperature"),
-                        set.getDouble("humidity")
-                ));
+                result.add(new Measure(set.getInt("id"), set.getString("date"), set.getDouble("temperature"),
+                        set.getDouble("humidity")));
             }
             return result;
         } catch (SQLException ex) {
@@ -40,10 +37,25 @@ public class DbHandler {
         }
     }
 
+    public Measure getLastMeasure() {
+        try (Statement statement = this.connection.createStatement()) {
+            List<Measure> result = new ArrayList<>();
+            ResultSet set = statement
+                    .executeQuery("SELECT id, date, temperature, humidity FROM measure ORDER BY ID DESC LIMIT 1");
+            while (set.next()) {
+                result.add(new Measure(set.getInt("id"), set.getString("date"), set.getDouble("temperature"),
+                        set.getDouble("humidity")));
+            }
+            return result.get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Measure(0, 0);
+        }
+    }
+
     public void addMeasure(Measure measure) {
-        try (PreparedStatement ps = this.connection.prepareStatement(
-           "INSERT INTO measure(`date`, `temperature`, `humidity`) " +
-           "VALUES(?, ?, ?)")) {
+        try (PreparedStatement ps = this.connection
+                .prepareStatement("INSERT INTO measure(`date`, `temperature`, `humidity`) " + "VALUES(?, ?, ?)")) {
             ps.setObject(1, measure.getDate());
             ps.setObject(2, measure.getTemperature());
             ps.setObject(3, measure.getHumidity());

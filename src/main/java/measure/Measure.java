@@ -2,8 +2,7 @@ package measure;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import Responses;
+import responses.*;
 
 public class Measure {
     private Integer id;
@@ -47,10 +46,7 @@ public class Measure {
         }
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return String.format("Дата: %s;\nВремя: %s;\nТемпература: %.1f°C;\nВлажность: %.1f%%.",
-                date.format(dateFormat),
-                date.format(timeFormat),
-                temperature,
-                humidity);
+        return String.format("Дата: %s;\nВремя: %s;\nТемпература: %.1f°C;\nВлажность: %.1f%%.", date.format(dateFormat),
+                date.format(timeFormat), temperature, humidity);
     }
 }
