@@ -48,7 +48,12 @@ public class Measure {
         if (temperature == 0 || humidity == 0) {
             return Responses.MEASURE_FAIL.getResponse();
         }
-        return String.format("Дата: %s;\nТемпература: %.1f градусов;\nВлажность: %.1f процентов.", date, temperature,
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return String.format("Дата: %s;\nВремя: %s;\nТемпература: %.1f°C;\nВлажность: %.1f%%.",
+                date.format(dateFormat),
+                date.format(timeFormat),
+                temperature,
                 humidity);
     }
 }
