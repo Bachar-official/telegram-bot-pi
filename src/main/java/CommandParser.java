@@ -3,6 +3,7 @@ import java.io.File;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 
+import chart.Chart;
 import measure.Measure;
 import responses.*;
 
@@ -27,14 +28,21 @@ public class CommandParser {
         return new SendPhoto().setNewPhoto(new File("chart.jpg"));
     }
 
+    public void writeHourChart() {
+        Chart chart = new Chart(handler.getMeasuresByHour());
+        chart.createChart();
+    }
+
     public Object getResponse() {
         switch (command) {
             case "start":
                 return replyByMessage(Responses.START.getResponse());
             case "measure":
                 return replyByMessage(getLastMeasure().toString());
-            case "test":
+            case "test": {
+                writeHourChart();
                 return replyByPhoto();
+            }
             default:
                 return replyByMessage(Responses.WTF.getResponse());
         }

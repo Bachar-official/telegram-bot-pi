@@ -39,6 +39,11 @@ public class Measure {
         this.humidity = humi;
     }
 
+    public String getTime() {
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("dd.MM, HH:mm");
+        return this.date.format(timeFormat);
+    }
+
     @Override
     public String toString() {
         if (temperature == 0 || humidity == 0) {
@@ -46,7 +51,7 @@ public class Measure {
         }
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return String.format("Дата: %s;\nВремя: %s;\nТемпература: %.1f°C;\nВлажность: %.1f%%.", date.format(dateFormat),
+        return String.format("Date: %s;\nTime: %s;\nTemp: %.1f°C;\nHumi: %.1f%%.", date.format(dateFormat),
                 date.format(timeFormat), temperature, humidity);
     }
 }

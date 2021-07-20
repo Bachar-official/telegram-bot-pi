@@ -37,6 +37,22 @@ public class DbHandler {
         }
     }
 
+    public List<Measure> getMeasuresByHour() {
+        try (Statement statement = this.connection.createStatement()) {
+            List<Measure> result = new ArrayList<>();
+            ResultSet set = statement
+                    .executeQuery("SELECT id, date, temperature, humidity FROM measure ORDER BY ID DESC LIMIT 12");
+            while (set.next()) {
+                result.add(new Measure(set.getInt("id"), set.getString("date"), set.getDouble("temperature"),
+                        set.getDouble("humidity")));
+            }
+            return result;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
     public Measure getLastMeasure() {
         try (Statement statement = this.connection.createStatement()) {
             List<Measure> result = new ArrayList<>();
