@@ -1,3 +1,8 @@
+import java.io.File;
+
+import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
+
 import measure.Measure;
 import responses.*;
 
@@ -14,14 +19,24 @@ public class CommandParser {
         return handler.getLastMeasure();
     }
 
-    public String getResponse() {
+    public SendMessage replyByMessage(String message) {
+        return new SendMessage().setText(message);
+    }
+
+    public SendPhoto replyByPhoto() {
+        return new SendPhoto().setNewPhoto(new File("chart.jpg"));
+    }
+
+    public Object getResponse() {
         switch (command) {
             case "start":
-                return Responses.START.getResponse();
+                return replyByMessage(Responses.START.getResponse());
             case "measure":
-                return getLastMeasure().toString();
+                return replyByMessage(getLastMeasure().toString());
+            case "test":
+                return replyByPhoto();
             default:
-                return Responses.WTF.getResponse();
+                return replyByMessage(Responses.WTF.getResponse());
         }
     }
 }

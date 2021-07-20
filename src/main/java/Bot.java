@@ -1,5 +1,8 @@
+import java.io.File;
+
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -25,7 +28,7 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
-            String response = "";
+            Object response = null;
 
             if (messageText.charAt(0) != '/') {
                 response = Responses.STOP_TALKING.getResponse();
@@ -36,12 +39,22 @@ public class Bot extends TelegramLongPollingBot {
                 response = parser.getResponse();
             }
 
-            SendMessage message = new SendMessage() // Create a message object object
-                    .setChatId(chatId).setText(response);
-            try {
-                execute(message); // Sending our message object to user
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+            if (response instanceof SendMessage) {
+                SendMessage msg = (SendMessage) response;
+                msg.setChatId(chatId);
+                try {
+                    execute(msg);// Sending our message object to user
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                SendPhoto msg = (SendPhoto) response;
+                msg.setChatId(chatId);
+                try {
+                    sendPhoto(msg); // Sending our message object to user
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
