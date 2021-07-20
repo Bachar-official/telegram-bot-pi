@@ -63,8 +63,8 @@ public class Bot extends TelegramLongPollingBot {
             tBotsApi.registerBot(this);
             System.out.println(Responses.STARTED.getResponse());
         } catch (TelegramApiRequestException e) {
-            System.out.println("Невозможно соединиться. Ждём " + RECONNECT_PAUSE / 1000
-                    + " секунд и пробуем снова. Ошибка: " + e.getMessage());
+            System.out.println("Unable to connect. Waiting for " + RECONNECT_PAUSE / 1000
+                    + " seconds and try again. Message: " + e.getMessage());
             try {
                 Thread.sleep(RECONNECT_PAUSE);
             } catch (InterruptedException e1) {

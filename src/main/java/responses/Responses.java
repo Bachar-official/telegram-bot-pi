@@ -1,11 +1,9 @@
 package responses;
 
 public enum Responses {
-    START("Привет!\n" + "Я - бот для мониторинга погоды в доме.\n" + "/start - ещё раз познакомиться.\n"
-            + "/measure - измерить текущие температуру и влажность."),
-    STOP_TALKING("Я - не бот для поболтушек.\n Отправляйте мне команды.\n Список команд доступен по команде /start."),
-    NOT_IMPLEMENTED("Я такое ещё не умею :("), WTF("Меня такому не учили!"), STARTED("Бот стартовал!"),
-    MEASURE_FAIL("Не удалось выполнить измерение.");
+    START("/start - read this message.\n" + "/measure - get current temperature and humidity."),
+    STOP_TALKING("Unknown message. Commands in /start."), NOT_IMPLEMENTED("Not implemented"), WTF("Unknown command!"),
+    STARTED("Started!"), MEASURE_FAIL("Getting measure fail.");
 
     public final String response;
 
