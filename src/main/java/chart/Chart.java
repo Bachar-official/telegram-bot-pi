@@ -22,10 +22,6 @@ public class Chart {
         this.measures = measures;
     }
 
-    public Date convertToDateViaSqlTimestamp(LocalDateTime dateToConvert) {
-        return java.sql.Timestamp.valueOf(dateToConvert);
-    }
-
     public DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         measures.forEach(measure -> {
