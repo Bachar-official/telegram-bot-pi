@@ -1,6 +1,8 @@
 import measure.Measure;
 import org.sqlite.JDBC;
 
+import jersey.repackaged.com.google.common.collect.Lists;
+
 import java.sql.*;
 import java.util.*;
 
@@ -37,16 +39,16 @@ public class DbHandler {
         }
     }
 
-    public List<Measure> getMeasuresByHour() {
+    public List<Measure> getMeasures(int count) {
         try (Statement statement = this.connection.createStatement()) {
             List<Measure> result = new ArrayList<>();
             ResultSet set = statement
-                    .executeQuery("SELECT id, date, temperature, humidity FROM measure ORDER BY ID DESC LIMIT 12");
+                    .executeQuery("SELECT id, date, temperature, humidity FROM measure ORDER BY ID DESC LIMIT " + count);
             while (set.next()) {
                 result.add(new Measure(set.getInt("id"), set.getString("date"), set.getDouble("temperature"),
                         set.getDouble("humidity")));
             }
-            return result;
+            return Lists.reverse(result);
         } catch (SQLException ex) {
             ex.printStackTrace();
             return Collections.emptyList();

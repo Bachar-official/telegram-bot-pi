@@ -11,6 +11,10 @@ public class CommandParser {
     private String command;
     private DbHandler handler = null;
 
+    private int HOUR = 12;
+    private int DAY = HOUR * 24;
+    private int WEEK = DAY * 7;
+
     public CommandParser(String command, DbHandler handler) {
         this.command = command;
         this.handler = handler;
@@ -28,8 +32,8 @@ public class CommandParser {
         return new SendPhoto().setNewPhoto(new File("chart.jpg"));
     }
 
-    public void writeHourChart() {
-        Chart chart = new Chart(handler.getMeasuresByHour());
+    public void drawChart(int count) {
+        Chart chart = new Chart(handler.getMeasures(count));
         chart.createChart();
     }
 
@@ -39,8 +43,16 @@ public class CommandParser {
                 return replyByMessage(Responses.START.getResponse());
             case "measure":
                 return replyByMessage(getLastMeasure().toString());
-            case "test": {
-                writeHourChart();
+            case "hour": {
+                drawChart(HOUR);
+                return replyByPhoto();
+            }
+            case "day": {
+                drawChart(DAY);
+                return replyByPhoto();
+            }
+            case "week": {
+                drawChart(WEEK);
                 return replyByPhoto();
             }
             default:
