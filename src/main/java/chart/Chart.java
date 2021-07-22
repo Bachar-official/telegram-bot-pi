@@ -43,8 +43,6 @@ public class Chart {
                 "Показания", // y-axis label
                 dataset);
 
-        // chart.setBackgroundPaint(Color.white);
-
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
