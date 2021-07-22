@@ -1,8 +1,6 @@
 package chart;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
@@ -18,15 +16,45 @@ import measure.Measure;
 public class Chart {
     public List<Measure> measures;
 
+    private final int HOUR = 12;
+    private final int DAY = HOUR * 24;
+    private final int WEEK = DAY * 7;
+
     public Chart(List<Measure> measures) {
         this.measures = measures;
     }
 
     public DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String xLabelTemp = "temperature";
+        String xLabelHumi = "humidity";
+
         measures.forEach(measure -> {
-            dataset.addValue(measure.getTemperature(), "temperature", measure.getTime());
-            dataset.addValue(measure.getHumidity(), "humidity", measure.getTime());
+            switch (measures.size()) {
+                case HOUR: {
+                    dataset.addValue(measure.getTemperature(), xLabelTemp, measure.getTime());
+                    dataset.addValue(measure.getHumidity(), xLabelHumi, measure.getTime());
+                    break;
+                }
+
+                case DAY: {
+                    String xValue = measure.getId() % 10 == 0 ? measure.getTime() : " ";
+                    dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
+                    dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
+                    break;
+                }
+
+                case WEEK: {
+                    String xValue = measure.getId() % 100 == 0 ? measure.getTime() : " ";
+                    dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
+                    dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
         });
 
         return dataset;
