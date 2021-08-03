@@ -11,9 +11,9 @@ public class CommandParser {
     private String command;
     private DbHandler handler = null;
 
-    private int HOUR = 12;
-    private int DAY = HOUR * 24;
-    private int WEEK = DAY * 7;
+    private Integer HOUR = 12;
+    private Integer DAY = HOUR * 24;
+    private Integer WEEK = DAY * 7;
 
     public CommandParser(String command, DbHandler handler) {
         this.command = command;
