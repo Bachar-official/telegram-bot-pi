@@ -62,9 +62,9 @@ public class Chart {
 
     public void createChart() {
         DefaultCategoryDataset dataset = createDataset();
-        JFreeChart chart = ChartFactory.createLineChart("Погода в доме", // title
-                "Время", // x-axis label
-                "Показания", // y-axis label
+        JFreeChart chart = ChartFactory.createLineChart("@weatherAtHomeBot", // title
+                "Time", // x-axis label
+                "Measures", // y-axis label
                 dataset);
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
