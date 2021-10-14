@@ -14,6 +14,7 @@ public class CommandParser {
     private Integer HOUR = 12;
     private Integer DAY = HOUR * 24;
     private Integer WEEK = DAY * 7;
+    private Integer WORKDAY = HOUR * 8;
 
     public CommandParser(String command, DbHandler handler) {
         this.command = command;
@@ -45,6 +46,10 @@ public class CommandParser {
                 return replyByMessage(getLastMeasure().toString());
             case "hour": {
                 drawChart(HOUR);
+                return replyByPhoto();
+            }
+            case "workday": {
+                drawChart(WORKDAY);
                 return replyByPhoto();
             }
             case "day": {

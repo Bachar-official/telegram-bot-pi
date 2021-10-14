@@ -9,6 +9,7 @@ public class Measure {
     private LocalDateTime date;
     private double temperature;
     private double humidity;
+    private double pressure;
 
     public Integer getId() {
         return id;
@@ -26,17 +27,23 @@ public class Measure {
         return humidity;
     }
 
-    public Measure(double temp, double humi) {
+    public double getPressure() {
+        return pressure;
+    }
+
+    public Measure(double temp, double humi, double press) {
         this.date = LocalDateTime.now();
         this.temperature = temp;
         this.humidity = humi;
+        this.pressure = press;
     }
 
-    public Measure(Integer id, String date, double temp, double humi) {
+    public Measure(Integer id, String date, double temp, double humi, double press) {
         this.id = id;
         this.date = LocalDateTime.parse(date);
         this.temperature = temp;
         this.humidity = humi;
+        this.pressure = press;
     }
 
     public String getTime() {
@@ -51,7 +58,7 @@ public class Measure {
         }
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return String.format("Date: %s;\nTime: %s;\nTemp: %.1f°C;\nHumi: %.1f%%.", date.format(dateFormat),
-                date.format(timeFormat), temperature, humidity);
+        return String.format("Date: %s;\nTime: %s;\nTemperature: %.1f°C;\nHumidity: %.1f%%;\nPressure: %.1f mm", date.format(dateFormat),
+                date.format(timeFormat), temperature, humidity, pressure);
     }
 }

@@ -19,6 +19,7 @@ public class Chart {
     private final int HOUR = 12;
     private final int DAY = HOUR * 24;
     private final int WEEK = DAY * 7;
+    private final int WORKDAY = HOUR * 8;
 
     public Chart(List<Measure> measures) {
         this.measures = measures;
@@ -28,12 +29,22 @@ public class Chart {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String xLabelTemp = "temperature";
         String xLabelHumi = "humidity";
+        String xLabelPress = "pressure";
 
         measures.forEach(measure -> {
             switch (measures.size()) {
                 case HOUR: {
                     dataset.addValue(measure.getTemperature(), xLabelTemp, measure.getTime());
                     dataset.addValue(measure.getHumidity(), xLabelHumi, measure.getTime());
+                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, measure.getTime());
+                    break;
+                }
+
+                case WORKDAY: {
+                    String xValue = measure.getId() % 8 == 0 ? measure.getTime() : " ";
+                    dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
+                    dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
+                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, xValue);
                     break;
                 }
 
@@ -41,6 +52,7 @@ public class Chart {
                     String xValue = measure.getId() % 10 == 0 ? measure.getTime() : " ";
                     dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
                     dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
+                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, xValue);
                     break;
                 }
 
@@ -48,6 +60,7 @@ public class Chart {
                     String xValue = measure.getId() % 100 == 0 ? measure.getTime() : " ";
                     dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
                     dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
+                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, xValue);
                     break;
                 }
 

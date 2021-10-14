@@ -33,7 +33,7 @@ public class DHTData {
     }
 
     public Measure toMeasure() {
-        return new Measure(temperature, humidity);
+        return new Measure(temperature, humidity, 0.0);
     }
 
     @Override
