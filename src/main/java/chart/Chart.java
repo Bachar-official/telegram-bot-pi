@@ -1,5 +1,6 @@
 package chart;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.ChartUtilities;
 
@@ -29,14 +31,15 @@ public class Chart {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String xLabelTemp = "temperature";
         String xLabelHumi = "humidity";
-        String xLabelPress = "pressure";
+        String xLabelPress = "pressure (x76)";
+        double divider = 76.0;
 
         measures.forEach(measure -> {
             switch (measures.size()) {
                 case HOUR: {
                     dataset.addValue(measure.getTemperature(), xLabelTemp, measure.getTime());
                     dataset.addValue(measure.getHumidity(), xLabelHumi, measure.getTime());
-                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, measure.getTime());
+                    dataset.addValue(measure.getPressure() / divider, xLabelPress, measure.getTime());
                     break;
                 }
 
@@ -44,7 +47,7 @@ public class Chart {
                     String xValue = measure.getId() % 8 == 0 ? measure.getTime() : " ";
                     dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
                     dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
-                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, xValue);
+                    dataset.addValue(measure.getPressure() / divider, xLabelPress, xValue);
                     break;
                 }
 
@@ -52,7 +55,7 @@ public class Chart {
                     String xValue = measure.getId() % 10 == 0 ? measure.getTime() : " ";
                     dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
                     dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
-                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, xValue);
+                    dataset.addValue(measure.getPressure() / divider, xLabelPress, xValue);
                     break;
                 }
 
@@ -60,7 +63,7 @@ public class Chart {
                     String xValue = measure.getId() % 100 == 0 ? measure.getTime() : " ";
                     dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
                     dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
-                    dataset.addValue(measure.getPressure() / 760.0, xLabelPress, xValue);
+                    dataset.addValue(measure.getPressure() / divider, xLabelPress, xValue);
                     break;
                 }
 
@@ -79,11 +82,9 @@ public class Chart {
                 "Time", // x-axis label
                 "Measures", // y-axis label
                 dataset);
-
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
-
         CategoryAxis axis = plot.getDomainAxis();
         axis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
 
