@@ -1,11 +1,11 @@
-import org.telegram.telegrambots.ApiContextInitializer;
-
 import java.io.IOException;
 
 import utils.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import telegram.Bot;
 
 public class App {
 
@@ -13,20 +13,9 @@ public class App {
     static final Integer PASSWORD_LINE = 1;
 
     public static void main(String[] args) {
-        ApiContextInitializer.init();
-        DbHandler handler = null;
         String token = "";
         String password = "";
-
-        System.out.println("Database initialization...");
-        try {
-            handler = DbHandler.getInstance();
-            System.out.println("Success. Getting bot's token...");
-
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-
+        System.out.println("Getting bot's token...");
         try {
             token = Utils.getTokenFromFile(TOKEN_LINE);
             password = Utils.getTokenFromFile(PASSWORD_LINE);
@@ -34,7 +23,12 @@ public class App {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        Bot weatherBot = new Bot("weatherAtHomeBot", token, handler, password);
-        weatherBot.botConnect();
+
+        try {
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botsApi.registerBot(new Bot("weatherAtHomeBot", token, password));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }        
     }
 }

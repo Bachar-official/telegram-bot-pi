@@ -1,7 +1,6 @@
+package database;
 import measure.Measure;
 import org.sqlite.JDBC;
-
-import jersey.repackaged.com.google.common.collect.Lists;
 
 import java.sql.*;
 import java.util.*;
@@ -48,7 +47,9 @@ public class DbHandler {
                 result.add(new Measure(set.getInt("id"), set.getString("date"), set.getDouble("temperature"),
                         set.getDouble("humidity"), set.getDouble("pressure")));
             }
-            return Lists.reverse(result);
+            List<Measure> sublist = result.subList(0, result.size());
+            Collections.reverse(sublist);
+            return sublist;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return Collections.emptyList();
