@@ -58,7 +58,7 @@ public class Measure {
         }
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return String.format("Date: %s;\nTime: %s;\nTemperature: %.1f°C;\nHumidity: %.1f%%;\nPressure: %.1f mm", date.format(dateFormat),
+        return String.format("Date: %s;\nTime: %s;\nTemperature: %.1f °C;\nHumidity: %.1f%%;\nPressure: %.1f mm", date.format(dateFormat),
                 date.format(timeFormat), temperature, humidity, pressure);
     }
 }
