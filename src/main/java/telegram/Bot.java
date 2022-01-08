@@ -10,7 +10,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import database.DbHandler;
 import telegram.commands.CurrentCommand;
+import telegram.commands.DayCommand;
 import telegram.commands.HourCommand;
+import telegram.commands.WeekCommand;
+import telegram.commands.WorkDayCommand;
 import telegram.nonCommand.NonCommand;
 
 public final class Bot extends TelegramLongPollingCommandBot {
@@ -38,6 +41,9 @@ public final class Bot extends TelegramLongPollingCommandBot {
         // регистрируем команды
         register(new CurrentCommand("measure", "Get current measure", this.dbHandler));
         register(new HourCommand("hour", "Get last measures of hour", this.dbHandler));
+        register(new WorkDayCommand("workday", "Get last measures of 8 hours", this.dbHandler));
+        register(new DayCommand("day", "Get last measures of the day", this.dbHandler));
+        register(new WeekCommand("week", "Get last measures of the week", this.dbHandler));
     }
 
     public static void checkPassword(String password) throws Exception {
