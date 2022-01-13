@@ -90,66 +90,6 @@ public final class Bot extends TelegramLongPollingCommandBot {
         }
     }
 
-    // public void onUpdateReceived(Update update) {
-
-    //     try {
-    //         whitelist = Utils.getWhiteList();
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     if (update.hasMessage() && update.getMessage().hasText()) {
-    //         String messageText = update.getMessage().getText();
-    //         long chatId = update.getMessage().getChatId();
-    //         Integer userId = update.getMessage().getFrom().getId();
-    //         Object response = null;
-
-    //         if (messageText.equals("/" + password)) {
-
-    //             try {
-    //                 Utils.registerUser(userId);
-    //                 whitelist.add(userId);
-    //                 response = new SendMessage().setText(Responses.WELCOME.getResponse());
-
-    //             } catch (IOException e) {
-    //                 e.printStackTrace();
-    //             }
-
-    //         }
-
-    //         else if (!Utils.isUserRegistered(whitelist, userId)) {
-    //             response = new SendMessage().setText(Responses.WHO_ARE_YOU.getResponse());
-    //         }
-
-    //         else if (messageText.charAt(0) != '/') {
-    //             response = new SendMessage().setText(Responses.STOP_TALKING.getResponse());
-    //         }
-
-    //         else {
-    //             CommandParser parser = new CommandParser(messageText.substring(1).toLowerCase(), handler);
-    //             response = parser.getResponse();
-    //         }
-
-    //         if (response instanceof SendMessage) {
-    //             SendMessage msg = (SendMessage) response;
-    //             msg.setChatId(chatId);
-    //             try {
-    //                 execute(msg);// Sending our message object to user
-    //             } catch (TelegramApiException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         } else {
-    //             SendPhoto msg = (SendPhoto) response;
-    //             msg.setChatId(chatId);
-    //             try {
-    //                 sendPhoto(msg); // Sending our message object to user
-    //             } catch (TelegramApiException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     }
-    // }
-
     @Override
     public String getBotUsername() {
         return userName;

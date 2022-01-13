@@ -49,6 +49,7 @@ public class DbHandler {
             }
             List<Measure> sublist = result.subList(0, result.size());
             Collections.reverse(sublist);
+            System.out.println(String.format("Got dataset from %s to %s", sublist.get(0).getTime(), sublist.get(sublist.size() - 1).getTime()));
             return sublist;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -65,6 +66,7 @@ public class DbHandler {
                 result.add(new Measure(set.getInt("id"), set.getString("date"), set.getDouble("temperature"),
                         set.getDouble("humidity"), set.getDouble("pressure")));
             }
+            System.out.println(String.format("Got result from %s", result.get(0).getTime()));
             return result.get(0);
         } catch (SQLException e) {
             e.printStackTrace();

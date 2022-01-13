@@ -26,6 +26,7 @@ public class Chart {
     }
 
     public DefaultCategoryDataset createDataset() {
+        System.out.println(String.format("Request for chart. Measures count: %d", measures.size()));
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String xLabelTemp = "temperature";
         String xLabelHumi = "humidity";
