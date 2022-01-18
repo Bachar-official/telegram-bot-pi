@@ -22,7 +22,7 @@ public class WorkDayCommand extends Command {
     public void execute(AbsSender sender, User user, Chat chat, String[] strings) {
         String userName = Utils.getUserName(user);
         List<Measure> dataset = handler.getMeasures(WORKDAY);
-        Chart chart = new Chart(dataset);
+        Chart chart = new Chart(dataset, false);
         chart.createChart();
         sendPhoto(sender, chat.getId(), this.getCommandIdentifier(), userName);
     }  

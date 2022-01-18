@@ -15,54 +15,45 @@ import measure.Measure;
 
 public class Chart {
     public List<Measure> measures;
+    private DefaultCategoryDataset dataset;
+    private boolean isPressure;
 
     private final int HOUR = 12;
     private final int DAY = HOUR * 24;
     private final int WEEK = DAY * 7;
     private final int WORKDAY = HOUR * 8;
 
-    public Chart(List<Measure> measures) {
+    public Chart(List<Measure> measures, boolean pressure) {
         this.measures = measures;
+        this.isPressure = pressure;
+        this.dataset = new DefaultCategoryDataset();
     }
 
-    public DefaultCategoryDataset createDataset() {
+    private DefaultCategoryDataset createDataset() {
         System.out.println(String.format("Request for chart. Measures count: %d", measures.size()));
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        String xLabelTemp = "temperature";
-        String xLabelHumi = "humidity";
-        String xLabelPress = "pressure (x76)";
-        double divider = 76.0;
 
         measures.forEach(measure -> {
             switch (measures.size()) {
                 case HOUR: {
-                    dataset.addValue(measure.getTemperature(), xLabelTemp, measure.getTime());
-                    dataset.addValue(measure.getHumidity(), xLabelHumi, measure.getTime());
-                    dataset.addValue(measure.getPressure() / divider, xLabelPress, measure.getTime());
+                    fillPoint(measure, measure.getTime());
                     break;
                 }
 
                 case WORKDAY: {
                     String xValue = measure.getId() % 8 == 0 ? measure.getTime() : " ";
-                    dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
-                    dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
-                    dataset.addValue(measure.getPressure() / divider, xLabelPress, xValue);
+                    fillPoint(measure, xValue);
                     break;
                 }
 
                 case DAY: {
                     String xValue = measure.getId() % 10 == 0 ? measure.getTime() : " ";
-                    dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
-                    dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
-                    dataset.addValue(measure.getPressure() / divider, xLabelPress, xValue);
+                    fillPoint(measure, xValue);
                     break;
                 }
 
                 case WEEK: {
                     String xValue = measure.getId() % 100 == 0 ? measure.getTime() : " ";
-                    dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
-                    dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
-                    dataset.addValue(measure.getPressure() / divider, xLabelPress, xValue);
+                    fillPoint(measure, xValue);
                     break;
                 }
 
@@ -73,6 +64,18 @@ public class Chart {
         });
 
         return dataset;
+    }
+
+    private void fillPoint(Measure measure, String xValue) {
+        String xLabelTemp = "temperature";
+        String xLabelHumi = "humidity";
+        String xLabelPress = "pressure";
+        if (isPressure) {
+            this.dataset.addValue(measure.getPressure(), xLabelPress, xValue);
+        } else {
+            this.dataset.addValue(measure.getTemperature(), xLabelTemp, xValue);
+            this.dataset.addValue(measure.getHumidity(), xLabelHumi, xValue);
+        }
     }
 
     public void createChart() {
